@@ -16,28 +16,28 @@ class StreamAIChatService {
     private let urlSession = URLSession.shared
     
     func setupAgent(channelId: String) async throws {
-        let url = URL(string: "\(baseURL)/start-ai-agent")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try jsonEncoder.encode(
-            AIAgentRequest(channelId: channelId)
+        try await executePostRequest(
+            body: AIAgentRequest(channelId: channelId),
+            endpoint: "start-ai-agent"
         )
-        let result = try await urlSession.data(for: request)
-        print(result)
     }
     
     func stopAgent(channelId: String) async throws {
-        let url = URL(string: "\(baseURL)/stop-ai-agent")!
+        try await executePostRequest(
+            body: AIAgentRequest(channelId: channelId),
+            endpoint: "stop-ai-agent"
+        )
+    }
+    
+    private func executePostRequest<RequestBody: Encodable>(body: RequestBody, endpoint: String) async throws {
+        let url = URL(string: "\(baseURL)/\(endpoint)")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try jsonEncoder.encode(
-            AIAgentRequest(channelId: channelId)
-        )
-        let result = try await urlSession.data(for: request)
-        print(result)
+        request.httpBody = try jsonEncoder.encode(body)
+        _ = try await urlSession.data(for: request)
     }
+        
 }
 
 struct AIAgentRequest: Encodable {
