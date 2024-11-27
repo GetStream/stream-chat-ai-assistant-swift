@@ -24,6 +24,13 @@ class AIViewFactory: ViewFactory {
         CustomMessageListContainerModifier(typingIndicatorHandler: typingIndicatorHandler)
     }
     
+    func makeEmptyMessagesView(
+        for channel: ChatChannel,
+        colors: ColorPalette
+    ) -> some View {
+        AIAgentOverlayView(typingIndicatorHandler: typingIndicatorHandler)
+    }
+    
     @ViewBuilder
     func makeCustomAttachmentViewType(
         for message: ChatMessage,
@@ -74,42 +81,51 @@ struct CustomMessageListContainerModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content.overlay {
-            VStack {
-                HStack {
-                    Spacer()
-                    if !typingIndicatorHandler.aiBotPresent {
-                        Button {
-                            Task {
-                                if let channelId = typingIndicatorHandler.channelId {
-                                    try await StreamAIChatService.shared.setupAgent(channelId: channelId.id)
-                                }
-                            }
-                        } label: {
-                            AIIndicatorButton(title: "Start AI")
-                        }
-                    } else {
-                        Button {
-                            Task {
-                                if let channelId = typingIndicatorHandler.channelId {
-                                    try await StreamAIChatService.shared.stopAgent(channelId: channelId.id)
-                                }
-                            }
-                        } label: {
-                            AIIndicatorButton(title: "Stop AI")
-                        }
+            AIAgentOverlayView(typingIndicatorHandler: typingIndicatorHandler)
+        }
+    }
+}
 
-                    }
-                }
+struct AIAgentOverlayView: View {
+    
+    @ObservedObject var typingIndicatorHandler: TypingIndicatorHandler
+    
+    var body: some View {
+        VStack {
+            HStack {
                 Spacer()
-                if typingIndicatorHandler.typingIndicatorShown {
-                    HStack {
-                        AITypingIndicatorView(text: typingIndicatorHandler.state)
-                        Spacer()
+                if !typingIndicatorHandler.aiBotPresent {
+                    Button {
+                        Task {
+                            if let channelId = typingIndicatorHandler.channelId {
+                                try await StreamAIChatService.shared.setupAgent(channelId: channelId.id)
+                            }
+                        }
+                    } label: {
+                        AIIndicatorButton(title: "Start AI")
                     }
-                    .padding()
-                    .frame(height: 80)
-                    .background(Color(UIColor.secondarySystemBackground))
+                } else {
+                    Button {
+                        Task {
+                            if let channelId = typingIndicatorHandler.channelId {
+                                try await StreamAIChatService.shared.stopAgent(channelId: channelId.id)
+                            }
+                        }
+                    } label: {
+                        AIIndicatorButton(title: "Stop AI")
+                    }
+                    
                 }
+            }
+            Spacer()
+            if typingIndicatorHandler.typingIndicatorShown {
+                HStack {
+                    AITypingIndicatorView(text: typingIndicatorHandler.state)
+                    Spacer()
+                }
+                .padding()
+                .frame(height: 80)
+                .background(Color(UIColor.secondarySystemBackground))
             }
         }
     }

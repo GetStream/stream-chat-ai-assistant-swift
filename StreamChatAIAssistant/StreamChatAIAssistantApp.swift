@@ -17,9 +17,9 @@ struct StreamChatAIAssistantApp: App {
     @State var typingIndicatorHandler: TypingIndicatorHandler
     
     var chatClient: ChatClient = {
-        var config = ChatClientConfig(apiKey: .init(apiKeyString))
+        var config = ChatClientConfig(apiKey: .init("zcgvnykxsfm8"))
         config.isLocalStorageEnabled = true
-        config.applicationGroupIdentifier = applicationGroupIdentifier
+        config.applicationGroupIdentifier = "group.io.getstream.iOS.ChatDemoAppSwiftUI"
 
         let client = ChatClient(config: config)
         return client
@@ -28,7 +28,12 @@ struct StreamChatAIAssistantApp: App {
     init() {
         let utils = Utils(
             messageTypeResolver: CustomMessageResolver(),
-            messageListConfig: .init(messageDisplayOptions: .init(spacerWidth: { _ in return 60 }))
+            messageListConfig: .init(
+                messageDisplayOptions: .init(spacerWidth: { _ in return 60 }),
+                skipEditedMessageLabel: { message in
+                    message.extraData["ai_generated"]?.boolValue == true
+                }
+            )
         )
         _streamChat = State(initialValue: StreamChat(chatClient: chatClient, utils: utils))
         typingIndicatorHandler = TypingIndicatorHandler()
@@ -60,9 +65,6 @@ struct StreamChatAIAssistantApp: App {
         }
     }
 }
-
-public let apiKeyString = "zcgvnykxsfm8"
-public let applicationGroupIdentifier = "group.io.getstream.iOS.ChatDemoAppSwiftUI"
 
 class CustomMessageResolver: MessageTypeResolving {
     
