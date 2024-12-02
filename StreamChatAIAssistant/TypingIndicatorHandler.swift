@@ -41,7 +41,7 @@ class TypingIndicatorHandler: ObservableObject, EventsControllerDelegate, ChatCh
     var isAiBotPresent: Bool {
         let aiAgent = memberListController?
             .members
-            .first(where: { $0.id == self.aiBotId })
+            .first(where: { $0.id.contains(self.aiBotId) })
         return aiAgent?.isOnline == true
     }
     
@@ -53,13 +53,13 @@ class TypingIndicatorHandler: ObservableObject, EventsControllerDelegate, ChatCh
     }
     
     func eventsController(_ controller: EventsController, didReceiveEvent event: any Event) {
-        if event is AIClearTypingEvent {
+        if event is AIIndicatorClearEvent {
             typingIndicatorShown = false
             generatingMessageId = nil
             return
         }
         
-        guard let typingEvent = event as? AITypingEvent else {
+        guard let typingEvent = event as? AIIndicatorUpdateEvent else {
             return
         }
         
@@ -80,7 +80,7 @@ class TypingIndicatorHandler: ObservableObject, EventsControllerDelegate, ChatCh
     }
 }
 
-extension AITypingEvent {
+extension AIIndicatorUpdateEvent {
     var title: String {
         switch state {
         case .thinking:

@@ -9,15 +9,29 @@
 /* Begin PBXBuildFile section */
 		84231DCD2CF533D5000BD929 /* StreamChatSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 84231DCC2CF533D5000BD929 /* StreamChatSwiftUI */; };
 		84E46A232CF605F9000CBDDE /* StreamChatAI in Frameworks */ = {isa = PBXBuildFile; productRef = 84E46A222CF605F9000CBDDE /* StreamChatAI */; };
+		84E46A3C2CFDD4DB000CBDDE /* StreamChatAI in Frameworks */ = {isa = PBXBuildFile; productRef = 84231DE92CF53E7E000BD929 /* StreamChatAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		84231DB82CF53342000BD929 /* StreamChatAIAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StreamChatAIAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		84E46A5A2CFE6477000CBDDE /* Exceptions for "StreamChatAIAssistant" folder in "StreamChatAIAssistant" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 84231DB72CF53342000BD929 /* StreamChatAIAssistant */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		84231DBA2CF53342000BD929 /* StreamChatAIAssistant */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				84E46A5A2CFE6477000CBDDE /* Exceptions for "StreamChatAIAssistant" folder in "StreamChatAIAssistant" target */,
+			);
 			path = StreamChatAIAssistant;
 			sourceTree = "<group>";
 		};
@@ -28,6 +42,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84E46A3C2CFDD4DB000CBDDE /* StreamChatAI in Frameworks */,
 				84E46A232CF605F9000CBDDE /* StreamChatAI in Frameworks */,
 				84231DCD2CF533D5000BD929 /* StreamChatSwiftUI in Frameworks */,
 			);
@@ -274,6 +289,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StreamChatAIAssistant/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera needed for adding images to the chat.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Mic needed for adding videos to the chat.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo access needed.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -314,6 +333,10 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = StreamChatAIAssistant/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Camera needed for adding images to the chat.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Mic needed for adding videos to the chat.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Photo access needed.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

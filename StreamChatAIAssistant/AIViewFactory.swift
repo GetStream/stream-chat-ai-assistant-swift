@@ -177,7 +177,7 @@ struct CustomTrailingComposerView: View {
                         viewModel.channelController
                             .eventsController()
                             .sendEvent(
-                                StreamingCancelledEvent()
+                                AIIndicatorStopEvent(cid: viewModel.channelController.channel?.cid)
                             )
                     }
                 } label: {
@@ -192,10 +192,4 @@ struct CustomTrailingComposerView: View {
         }
         .padding(.bottom, 8)
     }
-}
-
-
-//TODO: move to LLC.
-struct StreamingCancelledEvent: CustomEventPayload {
-    static var eventType: EventType = "stop_generating"
 }
