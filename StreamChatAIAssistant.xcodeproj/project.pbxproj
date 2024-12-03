@@ -392,8 +392,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/GetStream/stream-chat-swiftui";
 			requirement = {
-				branch = "ai-typing-events";
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.68.0;
 			};
 		};
 		84E46A212CF605F9000CBDDE /* XCRemoteSwiftPackageReference "stream-chat-swift-ai" */ = {

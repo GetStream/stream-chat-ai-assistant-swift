@@ -9,7 +9,7 @@ import Foundation
 import StreamChat
 import StreamChatSwiftUI
 
-class TypingIndicatorHandler: ObservableObject, EventsControllerDelegate, ChatChannelMemberListControllerDelegate {
+class TypingIndicatorHandler: ObservableObject, EventsControllerDelegate, ChatChannelWatcherListControllerDelegate {
     
     @Injected(\.chatClient) var chatClient: ChatClient
     
@@ -26,9 +26,9 @@ class TypingIndicatorHandler: ObservableObject, EventsControllerDelegate, ChatCh
     var channelId: ChannelId? {
         didSet {
             if let channelId = channelId {
-                memberListController = chatClient.memberListController(query: .init(cid: channelId))
-                memberListController?.delegate = self
-                memberListController?.synchronize { [weak self] _ in
+                watcherListController = chatClient.watcherListController(query: .init(cid: channelId))
+                watcherListController?.delegate = self
+                watcherListController?.synchronize { [weak self] _ in
                     guard let self else { return }
                     self.aiBotPresent = self.isAiBotPresent
                 }
@@ -39,13 +39,13 @@ class TypingIndicatorHandler: ObservableObject, EventsControllerDelegate, ChatCh
     @Published var typingIndicatorShown = false
     
     var isAiBotPresent: Bool {
-        let aiAgent = memberListController?
-            .members
+        let aiAgent = watcherListController?
+            .watchers
             .first(where: { $0.id.contains(self.aiBotId) })
         return aiAgent?.isOnline == true
     }
     
-    var memberListController: ChatChannelMemberListController?
+    var watcherListController: ChatChannelWatcherListController?
         
     init() {
         eventsController = chatClient.eventsController()
@@ -72,9 +72,9 @@ class TypingIndicatorHandler: ObservableObject, EventsControllerDelegate, ChatCh
         typingIndicatorShown = !typingEvent.title.isEmpty
     }
     
-    func memberListController(
-        _ controller: ChatChannelMemberListController,
-        didChangeMembers changes: [ListChange<ChatChannelMember>]
+    func channelWatcherListController(
+        _ controller: ChatChannelWatcherListController,
+        didChangeWatchers changes: [ListChange<ChatUser>]
     ) {
         self.aiBotPresent = isAiBotPresent
     }
